@@ -4,9 +4,9 @@
 ## How to install
 
 ```
-npm install @eufrasio/pagination
+npm install @lucaswilliameufrasio/pagination
 ```
 
 ```
-yarn add @eufrasio/pagination
+yarn add @lucaswilliameufrasio/pagination
 ```
