@@ -1,0 +1,33 @@
+{
+  "name": "@eufrasio/pagination",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "author": "lucaswilliameufrasio@gmail.com",
+  "keywords": [
+    "pagination"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf dist/* && tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && ./scripts/fixup",
+    "test": "jest --noStackTrace --verbose",
+    "test:coverage": "npm run test -- --coverage --silent",
+    "test:watch": "npm run test -- --watch",
+    "release": "standard-version"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.2.242",
+    "@swc/jest": "^0.2.22",
+    "@types/jest": "^28.1.8",
+    "jest": "^28.1.3",
+    "standard-version": "^9.5.0",
+    "typescript": "^4.7.4"
+  }
+}
