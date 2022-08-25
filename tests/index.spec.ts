@@ -125,7 +125,7 @@ describe('buildPagination()', () => {
       totalOfPages: 31,
       selectedPage: 3,
     })
-    expect(pagination).toEqual([1, 2, 3, 4, 5, rest, 30, 31])
+    expect(pagination).toEqual([1, 2, 3, 4, rest, 30, 31])
   })
 
   it('Should return an array with 7 pages and two "divider" if there are 31 pages and the select page is the twentieth ninth', function () {
@@ -198,5 +198,45 @@ describe('buildPagination()', () => {
       selectedPage: 26,
     })
     expect(pagination).toEqual([1, 2, rest, 25, 26, 27, rest, 999, 1000])
+  })
+
+  it('Should return an array with 5 pages and one "divider" if there are 30 pages and the select page is the 2', function () {
+    const pagination = buildPagination({
+      totalOfPages: 30,
+      selectedPage: 2,
+    })
+    expect(pagination).toEqual([1, 2, 3, rest, 29, 30])
+  })
+
+  it('Should return an array with 6 pages and one "divider" if there are 30 pages and the select page is 3', function () {
+    const pagination = buildPagination({
+      totalOfPages: 30,
+      selectedPage: 3,
+    })
+    expect(pagination).toEqual([1, 2, 3, 4, rest, 29, 30])
+  })
+
+  it('Should return an array with 7 pages and one "divider" if there are 30 pages and the select page is 4', function () {
+    const pagination = buildPagination({
+      totalOfPages: 30,
+      selectedPage: 4,
+    })
+    expect(pagination).toEqual([1, 2, 3, 4, 5, rest, 29, 30])
+  })
+
+  it('Should return an array with 3 pages if there are only 3 pages and the select page is the last one', function () {
+    const pagination = buildPagination({
+      totalOfPages: 3,
+      selectedPage: 3,
+    })
+    expect(pagination).toEqual([1, 2, 3])
+  })
+
+  it('Should return an array with 7 pages if there are only 7 pages and the select page is the last one', function () {
+    const pagination = buildPagination({
+      totalOfPages: 7,
+      selectedPage: 7,
+    })
+    expect(pagination).toEqual([1, 2, 3, 4, 5, 6, 7])
   })
 })
