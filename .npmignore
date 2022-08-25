@@ -1,0 +1,10 @@
+jest.config.js
+tsconfig.json
+tsconfig.cjs.json
+tsconfig.esm.json
+.github
+yarn-error.log
+src
+tests
+coverage
+scripts
