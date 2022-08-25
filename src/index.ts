@@ -6,7 +6,7 @@ export type Result = Array<number | typeof rest>
 
 const rest = '...'
 
-const generateNthLastPages = (
+const generateNthFirstPages = (
   numberOfPages: number,
   withRest = true,
 ): Result => {
@@ -15,11 +15,16 @@ const generateNthLastPages = (
     (_, index) => index + 1,
   ) as Result
 
-  const lastPages = withRest
+  const firstPages = withRest
     ? firstNthPagesWithoutRest.concat(rest)
     : firstNthPagesWithoutRest
-  return lastPages
+  return firstPages
 }
+
+const generateLastNPages = (numberOfPages: number, totalOfPages: number): Result => Array.from(
+  { length: numberOfPages },
+  (_, index) => totalOfPages - index,
+).reverse()
 
 const isTheSelectedPageBeforeTheLastNthOne = (
   selectedPage: number,
@@ -33,20 +38,11 @@ export const buildPagination = (params: Params): Result => {
 
   const { selectedPage, totalOfPages } = params
 
-  const lastFivePages: Result = Array.from(
-    { length: 5 },
-    (_, index) => totalOfPages - index,
-  ).reverse()
+  const lastFivePages: Result = generateLastNPages(5, totalOfPages)
 
-  const lastThreePages: Result = Array.from(
-    { length: 3 },
-    (_, index) => totalOfPages - index,
-  ).reverse()
+  const lastThreePages: Result = generateLastNPages(3, totalOfPages)
 
-  const lastTwoPages: Result = Array.from(
-    { length: 2 },
-    (_, index) => totalOfPages - index,
-  ).reverse()
+  const lastTwoPages: Result = generateLastNPages(2, totalOfPages)
 
   const middlePages: Result = [
     selectedPage - 1,
@@ -55,24 +51,24 @@ export const buildPagination = (params: Params): Result => {
     rest,
   ]
 
-  if (selectedPage === totalOfPages) {
-    return generateNthLastPages(2).concat(lastThreePages)
-  }
-
   if (totalOfPages <= 10) {
     return Array.from({ length: totalOfPages }, (_, index) => index + 1)
   }
 
+  if (selectedPage === totalOfPages) {
+    return generateNthFirstPages(2).concat(lastThreePages)
+  }
+
   if (selectedPage === 1) {
-    return generateNthLastPages(3).concat(lastTwoPages)
+    return generateNthFirstPages(3).concat(lastTwoPages)
   }
 
   if (selectedPage <= 3) {
-    return generateNthLastPages(5).concat(lastTwoPages)
+    return generateNthFirstPages(selectedPage + 1).concat(lastTwoPages)
   }
 
   if (selectedPage < 5) {
-    return generateNthLastPages(2, false)
+    return generateNthFirstPages(2, false)
       .concat(middlePages)
       .concat(lastTwoPages)
   }
@@ -81,21 +77,21 @@ export const buildPagination = (params: Params): Result => {
     selectedPage > 5 &&
     isTheSelectedPageBeforeTheLastNthOne(selectedPage, totalOfPages - 3)
   ) {
-    return generateNthLastPages(2).concat(middlePages).concat(lastTwoPages)
+    return generateNthFirstPages(2).concat(middlePages).concat(lastTwoPages)
   }
 
   if (
     selectedPage >= 5 &&
     isTheSelectedPageBeforeTheLastNthOne(selectedPage, totalOfPages - 5)
   ) {
-    return generateNthLastPages(2).concat(middlePages).concat(lastTwoPages)
+    return generateNthFirstPages(2).concat(middlePages).concat(lastTwoPages)
   }
 
   const isAPageBetweenLastTwoPages = selectedPage > totalOfPages - 2
 
   if (isAPageBetweenLastTwoPages) {
-    return generateNthLastPages(2).concat(lastThreePages)
+    return generateNthFirstPages(2).concat(lastThreePages)
   }
 
-  return generateNthLastPages(2).concat(lastFivePages)
+  return generateNthFirstPages(2).concat(lastFivePages)
 }
